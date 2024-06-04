@@ -1,0 +1,12 @@
+name: 2024_ads-backend
+
+services:
+
+  app:
+    container_name: ${COMPOSE_PROJECT_NAME}-app
+    build:
+      context: .
+      dockerfile: Dockerfile
+    restart: unless-stopped
+    ports:
+      - ${APP_PORT}:${APP_PORT}
