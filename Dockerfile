@@ -1,7 +1,22 @@
-FROM nginx:stable-alpine
+# Sempre utilizar a variante `alpine`.
 
-COPY ./nginx.conf /etc/nginx/conf.d/default.conf
+# --- Base Node ---
+# Base setup
+FROM node:20-alpine3.18 AS base
+RUN echo "FROM node:20-alpine3.18 AS base"
 
-EXPOSE 3333
+WORKDIR /app
 
-CMD ["nginx", "-g", "daemon off;"]
+COPY package*.json ./
+
+COPY . .
+
+# --- Production Setup ---
+# Dependences, Prisma setup, Build and apply Prisma change
+FROM base AS prod
+RUN echo "base AS prod"
+
+RUN npm ci
+RUN npm run build
+
+CMD [ "npm", "run", "start:prod" ]

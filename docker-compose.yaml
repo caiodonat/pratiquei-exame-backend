@@ -7,6 +7,11 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
+      target: ${BUILD_TARGET:-prod}
     restart: unless-stopped
+    environment:
+      - PORT=${APP_PORT}
+      - DATABASE_URL=${DATABASE_URL}
+      - JWT_SECRET=${JWT_SECRET}
     ports:
       - ${APP_PORT}:${APP_PORT}
