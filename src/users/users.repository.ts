@@ -3,6 +3,7 @@ import { Inject, Injectable } from '@nestjs/common';
 import { UserEntity } from './entities/user.entity';
 import { CreateUserDto } from './dto/create-user.dto';
 import { Repository } from 'typeorm';
+import { UpdateUserDto } from './dto/update-user.dto';
 
 @Injectable()
 export class UserRepository {
@@ -16,7 +17,7 @@ export class UserRepository {
 		return await this.usersRepository.save(newEntity)
 	}
 
-	public async getAllUsers(): Promise<UserEntity[]> {
+	public async selectAllUsers(): Promise<UserEntity[]> {
 		return await this.usersRepository.find();
 	}
 
@@ -25,6 +26,13 @@ export class UserRepository {
 			where: {
 				id: UserId
 			}
+		});
+	}
+
+	public async updateUser(UserId: UserEntity['id'], updateUserDto: UpdateUserDto): Promise<UserEntity> {
+		return await this.usersRepository.save({
+			id: UserId,
+			...updateUserDto
 		});
 	}
 

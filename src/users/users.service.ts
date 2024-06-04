@@ -17,11 +17,11 @@ export class UsersService {
   }
 
   public async findAllUsers() {
-    return await this.usersRepository.getAllUsers();
+    return await this.usersRepository.selectAllUsers();
   }
 
   public async findOneUser(id: UserEntity['id']) {
-    return await this.usersRepository.getAllUsers();
+    return await this.usersRepository.selectSafeUserById(id);
   }
 
   public async changeUser(id: UserEntity['id'], updateUserDto: UpdateUserDto) {

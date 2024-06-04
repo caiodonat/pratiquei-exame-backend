@@ -5,11 +5,13 @@ import { DatabaseModule } from 'src/database/database.module';
 import { usersProviders } from './users.providers';
 import { UserRepository } from './users.repository';
 import { Repository } from 'typeorm';
+import { UserEntity } from './entities/user.entity';
 
 @Module({
   imports: [DatabaseModule, Repository],
   controllers: [UsersController],
   providers: [
+    UserEntity,
     ...usersProviders,
     UsersService, UserRepository],
 })
