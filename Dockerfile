@@ -3,7 +3,6 @@
 # --- Base Node ---
 # Base setup
 FROM node:20-alpine3.18 AS base
-RUN echo "FROM node:20-alpine3.18 AS base"
 
 WORKDIR /app
 
