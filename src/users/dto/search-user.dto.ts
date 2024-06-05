@@ -1,7 +1,7 @@
-import { ApiExtraModels, ApiProperty } from "@nestjs/swagger";
-import { IsOptional, IsUUID, Matches } from "class-validator";
+import { ApiProperty } from "@nestjs/swagger";
+import { IsOptional, IsUUID, Min } from "class-validator";
 
-@ApiExtraModels(SearchUserDto)
+
 export class SearchUserDto {
 
 	@ApiProperty({
@@ -18,11 +18,9 @@ export class SearchUserDto {
 		required: false
 	})
 	@IsOptional()
-	@Matches(
-		new RegExp(/^([0-9A-Fa-f]{2}(-|:|3%A|)){5}([0-9A-Fa-f]{2})$/igm),
-		{
-			message: '"Endereço MAC Celular" com formato invalido'
-		})
+	@Min(6, {
+		message: '"Nome" deve ser maior que 6'
+	})
 	readonly name: string;
 
 }
