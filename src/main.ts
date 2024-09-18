@@ -1,7 +1,7 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
-import { SearchUserDto } from './users/dto/search-user.dto';
+import { UserSearchDto } from './users/dto/search-user.dto';
 import { ValidationPipe } from '@nestjs/common';
 
 

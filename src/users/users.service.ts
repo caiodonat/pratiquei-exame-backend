@@ -1,36 +1,32 @@
-import { Inject, Injectable } from '@nestjs/common';
-import { CreateUserDto } from './dto/create-user.dto';
-import { UpdateUserDto } from './dto/update-user.dto';
-import { Repository } from 'typeorm';
+import { Injectable } from '@nestjs/common';
+import { UserCreateDto } from './dto/create-user.dto';
+import { UserUpdateDto } from './dto/update-user.dto';
 import { UserEntity } from './entities/user.entity';
 import { UserRepository } from './users.repository';
+import { UserSearchDto } from './dto/search-user.dto';
 
 @Injectable()
 export class UsersService {
 
   constructor(
-    private usersRepository: UserRepository,
+    private _repository: UserRepository,
   ) { }
 
-  public async createUser(createUserDto: CreateUserDto) {
-    return await this.usersRepository.createUser(createUserDto);
-  }
-
-  public async findAllUsers() {
-    return await this.usersRepository.selectAllUsers();
+  public async createUser(createUserDto: UserCreateDto) {
+    return await this._repository.createUser(createUserDto);
   }
 
   public async findOneUser(id: UserEntity['id']) {
-    return await this.usersRepository.selectSafeUserById(id);
+    return await this._repository.selectSafeUserById(id);
   }
 
-  public async changeUser(id: UserEntity['id'], updateUserDto: UpdateUserDto) {
+  public async searchUsers(queries: UserSearchDto){
+    console.debug(queries);
+
+    return await this._repository.selectManyUsers(queries);
+  }
+
+  public async changeUser(id: UserEntity['id'], updateUserDto: UserUpdateDto) {
     return await `This action updates a #${id} user`;
   }
-
-  public async removeUser(id: UserEntity['id']) {
-    return await `This action removes a #${id} user`;
-  }
-
-
 }

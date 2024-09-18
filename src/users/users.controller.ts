@@ -1,8 +1,8 @@
 import { Controller, Get, Post, Body, Patch, Param, Delete, Query } from '@nestjs/common';
 import { UsersService } from './users.service';
-import { CreateUserDto } from './dto/create-user.dto';
-import { UpdateUserDto } from './dto/update-user.dto';
-import { SearchUserDto } from './dto/search-user.dto';
+import { UserCreateDto } from './dto/create-user.dto';
+import { UserUpdateDto } from './dto/update-user.dto';
+import { UserSearchDto } from './dto/search-user.dto';
 import { ApiTags } from '@nestjs/swagger';
 
 @Controller('users')
@@ -14,21 +14,16 @@ export class UsersController {
 
   @Post()
   public async create(
-    @Body() createUserDto: CreateUserDto
+    @Body() createUserDto: UserCreateDto
   ) {
     return await this.usersService.createUser(createUserDto);
   }
 
-  @Get('/all')
-  public async getAllUsers() {
-    return await this.usersService.findAllUsers();
-  }
-
   @Get('/search')
   public async getManyUsers(
-		@Query() queries?: SearchUserDto
+		@Query() queries?: UserSearchDto
   ) {
-    return await this.usersService.findAllUsers();
+    return await this.usersService.searchUsers(queries);
   }
 
   @Get(':id')
@@ -41,15 +36,8 @@ export class UsersController {
   @Patch(':id')
   public async putUser(
     @Param('id') id: string,
-    @Body() updateUserDto: UpdateUserDto
+    @Body() updateUserDto: UserUpdateDto
   ) {
     return await this.usersService.changeUser(id, updateUserDto);
-  }
-
-  @Delete(':id')
-  public async deleteUser(
-    @Param('id') id: string
-  ) {
-    return await this.usersService.removeUser(id);
   }
 }

@@ -1,26 +1,6 @@
-import { ApiProperty } from "@nestjs/swagger";
-import { IsOptional, IsUUID, Min } from "class-validator";
+import { PartialType } from "@nestjs/swagger";
+import { UserEntity } from "../entities/user.entity";
 
-
-export class SearchUserDto {
-
-	@ApiProperty({
-		type: String,
-		format: 'uuid',
-		required: false
-	})
-	@IsOptional()
-	@IsUUID()
-	id: string;
-
-	@ApiProperty({
-		type: String,
-		required: false
-	})
-	@IsOptional()
-	@Min(6, {
-		message: '"Nome" deve ser maior que 6'
-	})
-	readonly name: string;
+export class UserSearchDto extends PartialType(UserEntity) {
 
 }

@@ -1,9 +1,10 @@
 // import { source } from './database';
 import { Inject, Injectable } from '@nestjs/common';
 import { UserEntity } from './entities/user.entity';
-import { CreateUserDto } from './dto/create-user.dto';
-import { Repository } from 'typeorm';
-import { UpdateUserDto } from './dto/update-user.dto';
+import { UserCreateDto } from './dto/create-user.dto';
+import { And, Like, Repository } from 'typeorm';
+import { UserUpdateDto } from './dto/update-user.dto';
+import { UserSearchDto } from './dto/search-user.dto';
 
 @Injectable()
 export class UserRepository {
@@ -13,7 +14,7 @@ export class UserRepository {
 		private usersRepository: Repository<UserEntity>,
 	) { }
 
-	public async createUser(newEntity: CreateUserDto): Promise<UserEntity> {
+	public async createUser(newEntity: UserCreateDto): Promise<UserEntity> {
 		return await this.usersRepository.save(newEntity)
 	}
 
@@ -29,7 +30,33 @@ export class UserRepository {
 		});
 	}
 
-	public async updateUser(UserId: UserEntity['id'], updateUserDto: UpdateUserDto): Promise<UserEntity> {
+	public async selectManyUsers(queries: UserSearchDto) {
+		// let obj = {};
+		// const tt = Object.keys(queries).map((key, val) => {
+		// 	console.debug(val);
+
+		// 	if (val) {
+		// 		obj[key] = val
+		// 		// return { queries[key]: val }
+		// 	} /* else {
+		// 		obj[key] = undefined;
+		// 	} */
+		// });
+
+		// console.debug(tt)
+		// console.debug(obj)
+
+		return await this.usersRepository.find({
+			where: {
+				id: queries.id ? queries.id : undefined,
+				name: queries.name ? Like(`%${queries.name}%`) : undefined,
+				email: queries.email ? Like(`%${queries.email}%`) : undefined,
+				nickname: queries.nickname ? Like(`%${queries.nickname}%`) : undefined
+			}
+		});
+	}
+
+	public async updateUser(UserId: UserEntity['id'], updateUserDto: UserUpdateDto): Promise<UserEntity> {
 		return await this.usersRepository.save({
 			id: UserId,
 			...updateUserDto
