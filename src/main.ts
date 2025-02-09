@@ -13,6 +13,8 @@ async function bootstrap() {
 	const app = await NestFactory.create(AppModule, {
 		logger: ['error', 'debug', 'fatal', 'warn', 'debug', 'log']
 	});
+	
+  app.setGlobalPrefix('api');
 
 
 	app.useGlobalPipes(new ValidationPipe({
@@ -26,7 +28,7 @@ async function bootstrap() {
 		.build();
 
 	const document = SwaggerModule.createDocument(app, config,);
-	SwaggerModule.setup('swagger', app, document, {
+	SwaggerModule.setup('api/swagger', app, document, {
 		customSiteTitle: 'Swagger UI | Pratiquei Exame (REST API)',
 		jsonDocumentUrl: 'openapi.json',
 		explorer: true,

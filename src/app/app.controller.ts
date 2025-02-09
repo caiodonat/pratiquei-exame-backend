@@ -12,7 +12,7 @@ export class AppController {
   public async getHello(
     @Res() res: Response
   ) {
-    return res.redirect('/swagger');
+    return res.redirect('api/swagger');
   }
 
   @All('/mp')
