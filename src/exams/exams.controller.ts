@@ -7,41 +7,44 @@ import { ApiTags } from '@nestjs/swagger';
 @Controller('exams')
 @ApiTags('Exams')
 export class ExamsController {
-  constructor(
-    private readonly examsService: ExamsService
-  ) { }
+	constructor(
+		private readonly examsService: ExamsService
+	) { }
 
-  @Post()
-  public async postExam(
-    @Body() createExamDto: CreateExamDto
-  ) {
-    return await this.examsService.createExam(createExamDto);
-  }
+	/**
+	 * @todo Apenas ADMIN. 
+	 */
+	@Post('/')
+	public async postExam(
+		@Body() createExamDto: CreateExamDto
+	) {
+		return await this.examsService.newExam(createExamDto);
+	}
 
-  @Get('/all')
-  public async getAllExams() {
-    return this.examsService.findAllExams();
-  }
+	@Get('/all')
+	public async getExamsAll() {
+		return this.examsService.findAllExams();
+	}
 
-  @Get(':id')
-  public async getExam(
-    @Param('id') id: string
-  ) {
-    return this.examsService.findExam(id);
-  }
+	@Get('/:id')
+	public async getExamsId(
+		@Param('id') id: string
+	) {
+		return this.examsService.findExam(id);
+	}
 
-  @Patch(':id')
-  public async patchExam(
-    @Param('id') id: string,
-    @Body() updateExamDto: UpdateExamDto
-  ) {
-    return this.examsService.changeExam(id, updateExamDto);
-  }
+	@Patch('/:id')
+	public async patchExams(
+		@Param('id') id: string,
+		@Body() updateExamDto: UpdateExamDto
+	) {
+		return this.examsService.changeExam(id, updateExamDto);
+	}
 
-  @Delete(':id')
-  public async deleteExam(
-    @Param('id') id: string
-  ) {
-    return this.examsService.removeExam(id);
-  }
+	@Delete('/:id')
+	public async deleteExamsId(
+		@Param('id') id: string
+	) {
+		return this.examsService.removeExam(id);
+	}
 }

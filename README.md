@@ -1,4 +1,4 @@
-# Pratiquei Exames de ADS (backend)
+# Pratiquei Exame (backend)
 
 **Colaboradores**: 
   - @Caio Donat <cdonat.dev@gmail.com>
@@ -7,7 +7,7 @@
 
 ## Info
 
-[![ER Diagram on DBDiagram](public/pratiquei-exame-der-v0.2.0.png)](https://dbdiagram.io/embed/65e6865ecd45b569fb853dba)
+[![ER Diagram on DBDiagram](public/der-lasted.png)](https://dbdiagram.io/embed/65e6865ecd45b569fb853dba)
 
 ## Tech Stack
 
@@ -21,7 +21,7 @@
 
 ### Libraries
 
--   Build : `Node` (20.8.0)
+-   Build : `Node.js` (20.8.0)
 -   Schema validation : `class-validator` (^0.14.1)
 -   API documentation : `nestjs/swagger` (^7.3.1) | `OpenAPI` (3.0.0)
 -   Technical documentation : `Compodoc` (?)

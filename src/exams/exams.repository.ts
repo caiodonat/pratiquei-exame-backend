@@ -10,11 +10,11 @@ export class ExamRepository {
 
 	constructor(
 		@Inject('EXAME_REPOSITORY')
-		private examsRepository: Repository<ExamEntity>,
+		private readonly examsRepository: Repository<ExamEntity>,
 	) { }
 
 	public async createExam(newEntity: CreateExamDto): Promise<ExamEntity> {
-		return await this.examsRepository.save(newEntity)
+		return await this.examsRepository.save(newEntity);
 	}
 
 	public async selectAllExams(): Promise<ExamEntity[]> {
