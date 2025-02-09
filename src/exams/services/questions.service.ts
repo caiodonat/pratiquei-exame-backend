@@ -14,7 +14,8 @@ export class QuestionsService {
 		const question = dto.toEntity();
 
 		console.debug(question);
-		return await this._repository.createQuestion(question);
+		return question;
+		// return await this._repository.createQuestion(question);
 	}
 
 	public async findAllQuestions() {
@@ -30,6 +31,6 @@ export class QuestionsService {
 	// }
 
 	public async removeQuestion(id: QuestionEntity['id']) {
-		// return await this._repository.deleteQuestionById(id);
+		return await this._repository.deleteQuestionById(id);
 	}
 }

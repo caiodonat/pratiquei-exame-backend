@@ -17,9 +17,9 @@ import { join } from 'path';
     }),
     ServeStaticModule.forRoot({
       rootPath: join(__dirname, '../..', 'frontend'),
-      exclude: ['/api/{*test}'],
+      exclude: ['/api/*'],
       serveStaticOptions: {
-        // fallthrough: false,
+        fallthrough: false,
       },
     }),
     DatabaseModule,

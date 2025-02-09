@@ -1,6 +1,7 @@
 import { ApiProperty } from "@nestjs/swagger";
 import { IsOptional, Length, Min } from "class-validator";
-import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, ManyToMany, PrimaryGeneratedColumn } from "typeorm";
+import { QuestionEntity } from "./question.entity";
 
 @Entity('exams')
 export class ExamEntity {
@@ -33,10 +34,9 @@ export class ExamEntity {
 	@IsOptional()
 	description: string;
 
-	// @Column()
-	// @ApiProperty({
-	// 	type: [String]
-	// })
-	// questions: string[];
+	@ManyToMany(() => QuestionEntity, (simulations: QuestionEntity) => simulations.exams, {
+		onDelete: 'SET NULL'
+	})
+	questions: QuestionEntity[];
 
 }

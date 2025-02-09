@@ -13,12 +13,15 @@ async function bootstrap() {
 	const app = await NestFactory.create(AppModule, {
 		logger: ['error', 'debug', 'fatal', 'warn', 'debug', 'log']
 	});
-	
-  app.setGlobalPrefix('api');
+
+	app.setGlobalPrefix('api');
 
 
 	app.useGlobalPipes(new ValidationPipe({
 		transform: true,
+		// transformOptions: {
+		// 	enableImplicitConversion: false,
+		// }
 	}));
 
 	const config = new DocumentBuilder()

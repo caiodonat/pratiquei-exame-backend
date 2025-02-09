@@ -4,13 +4,13 @@ import { QuestionEntity } from "../entities/question.entity";
 
 
 export class QuestionCreateDto
-	extends OmitType(QuestionEntity, ['id', 'status', 'createdAt']) {
+	extends OmitType(QuestionEntity, ['id', 'isValidated', 'createdAt']) {
 
 	@ApiHideProperty()
 	public id: QuestionEntity['id'];
 
 	@ApiHideProperty()
-	public status: string = 'ACTIVATED';
+	public isValidated: boolean = false;
 
 	@ApiHideProperty()
 	public createdAt: Date = new Date();
@@ -25,13 +25,17 @@ export class QuestionCreateDto
 				this.id = dto['id'];
 			}
 
-			// 		this.typeCode = dto.typeCode;
-			// 		this.title = dto.title;
-			// 		this.subject = dto.subject;
-			// 		this.description = dto.description;
-			// 		this.discursiveAnswer = dto.discursiveAnswer;
+			if (dto.code) {
+				this.code = dto.code;
+			} else {				
+				this.code = this.id;
+			}
 
-			// 		// this.status = 
+			this.typeCode = dto.typeCode;
+			this.title = dto.title;
+			this.subject = dto.subject;
+			this.description = dto.description;
+			this.discursiveAnswer = dto.discursiveAnswer;
 		}
 	}
 
@@ -41,5 +45,5 @@ export class QuestionCreateDto
 }
 
 export type QuestionCreateDtoType = Pick<QuestionCreateDto,
-	'typeCode' | 'title' | 'subject' | 'description' | 'discursiveAnswer'
+	'code' | 'typeCode' | 'title' | 'subject' | 'description' | 'discursiveAnswer'
 >;

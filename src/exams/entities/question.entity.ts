@@ -1,7 +1,10 @@
 import { ApiProperty } from "@nestjs/swagger";
-import { IsOptional, Length, Min } from "class-validator";
-import { Column, CreateDateColumn, Entity, PrimaryGeneratedColumn } from "typeorm";
+import { IsEnum, IsOptional, Length, Min, validateSync } from "class-validator";
+import { Column, CreateDateColumn, Entity, JoinColumn, JoinTable, ManyToMany, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
 import { QuestionCreateDto } from "../dto/question-create.dto";
+import { ExamEntity } from "./exam.entity";
+import { QUESTION_TYPE } from "../enums/questionType.enum";
+import { instanceToPlain, plainToClass, Transform } from "class-transformer";
 // import { QuestionCreateDtoType } from "../dto/question-create.dto";
 
 @Entity('questions')
@@ -14,9 +17,19 @@ export class QuestionEntity {
 	})
 	public id: string;
 
-	@Column({ name: 'type_code' })
+	/**
+	 * Only `kebab-case`.
+	 */
+	@Column({ unique: true, nullable: true })
 	@ApiProperty({ type: String })
-	public typeCode: string;
+	@Transform(({ value }) => value.toLowerCase())
+	@Transform(({ value }) => value.replace(" ", "-"))
+	public code: string;
+
+	@Column({ name: 'type_code' })
+	@ApiProperty({ enum: QUESTION_TYPE })
+	@IsEnum(QUESTION_TYPE, { message: '"Tipo da Questão" invalida'})
+	public typeCode: QUESTION_TYPE;
 
 
 	@Column()
@@ -52,12 +65,23 @@ export class QuestionEntity {
 	public discursiveAnswer?: string | undefined;
 
 
-	@Column()
-	@ApiProperty({ type: String })
-	public status: string;
+	// @Column()
+	// @ApiProperty({
+	// 	enum: QUESTION_STATUS
+	// })
+	// public status: QUESTION_STATUS;
+	@Column({ name: 'is_validated' })
+	public isValidated: boolean;
 
 	@CreateDateColumn({ name: 'created_at' })
 	public createdAt: Date;
+
+
+	@ManyToMany(() => ExamEntity, (exams: ExamEntity) => exams.description, {
+		onDelete: 'SET NULL'
+	})
+	@JoinTable({ name: '_questions_on_exams' })
+	public exams: ExamEntity[];
 
 	// question_origin_id varchar [ref: > question_origin.id]
 	// origin_person_id varchar [ref: > persons.id]
@@ -66,14 +90,23 @@ export class QuestionEntity {
 		if (dto) {
 
 			this.id = dto.id;
+			this.code = dto.code;
+
 			this.typeCode = dto.typeCode;
 			this.title = dto.title;
 			this.subject = dto.subject;
 			this.description = dto.description;
 			this.discursiveAnswer = dto.discursiveAnswer;
 
-			this.status = dto.status;
+			this.isValidated = dto.isValidated;
+			// this.status = dto.status;
 			this.createdAt = dto.createdAt;
 		}
+		// validateSync(this);
+	}
+
+	public toJSON() {
+		return instanceToPlain(this);
+		// return plainToClass(QuestionEntity, this);
 	}
 }
