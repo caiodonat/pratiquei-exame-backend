@@ -22,8 +22,6 @@ export class QuestionEntity {
 	 */
 	@Column({ unique: true, nullable: true })
 	@ApiProperty({ type: String })
-	@Transform(({ value }) => value.toLowerCase())
-	@Transform(({ value }) => value.replace(" ", "-"))
 	public code: string;
 
 	@Column({ name: 'type_code' })

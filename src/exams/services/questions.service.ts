@@ -12,10 +12,13 @@ export class QuestionsService {
 
 	public async newQuestion(dto: QuestionCreateDto) {
 		const question = dto.toEntity();
-
+		console.debug('question');
 		console.debug(question);
-		return question;
-		// return await this._repository.createQuestion(question);
+
+		
+		const question2 = new QuestionCreateDto(dto);
+		console.debug('question2');
+		console.debug(question2);
 	}
 
 	public async findAllQuestions() {
