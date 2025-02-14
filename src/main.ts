@@ -19,9 +19,9 @@ async function bootstrap() {
 
 	app.useGlobalPipes(new ValidationPipe({
 		transform: true,
-		// transformOptions: {
-		// 	enableImplicitConversion: false,
-		// }
+		transformOptions: {
+			enableImplicitConversion: false,
+		}
 	}));
 
 	const config = new DocumentBuilder()

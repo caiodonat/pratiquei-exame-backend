@@ -1,6 +1,7 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { Repository } from 'typeorm';
 import { QuestionEntity } from '../entities/question.entity';
+import { QuestionUniqueDto } from '../dto/question-uniques.dto';
 
 @Injectable()
 export class QuestionRepository {
@@ -20,10 +21,11 @@ export class QuestionRepository {
 			.getMany();
 	}
 
-	public async selectSafeQuestionById(id: QuestionEntity['id']): Promise<QuestionEntity> {
+	public async selectSafeQuestionById(uniques: QuestionUniqueDto): Promise<QuestionEntity> {
 		return await this._repository
 			.createQueryBuilder('questions')
-			.where('questions.id = :id', { id: id })
+			.where('questions.id = :id', { id: uniques.id })
+			.orWhere('questions.code = :code', { code: uniques.code })
 			.getOne();
 	}
 

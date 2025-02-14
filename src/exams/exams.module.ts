@@ -1,6 +1,6 @@
 import { Module } from '@nestjs/common';
 import { ExamsService } from './exams.service';
-import { ExamsController } from './exams.controller';
+import { ExamsController } from './controllers/exams.controller';
 import { DatabaseModule } from 'src/database/database.module';
 import { Repository } from 'typeorm';
 import { examsProviders } from './exams.provider';

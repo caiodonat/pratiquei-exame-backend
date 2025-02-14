@@ -26,7 +26,7 @@ export class QuestionEntity {
 
 	@Column({ name: 'type_code' })
 	@ApiProperty({ enum: QUESTION_TYPE })
-	@IsEnum(QUESTION_TYPE, { message: '"Tipo da Questão" invalida'})
+	@IsEnum(QUESTION_TYPE, { message: '"Tipo da Questão" invalida' })
 	public typeCode: QUESTION_TYPE;
 
 
@@ -45,7 +45,7 @@ export class QuestionEntity {
 	})
 	public subject: string;
 
-	@Column()
+	@Column({ nullable: true })
 	@ApiProperty({
 		type: String,
 	})
@@ -53,7 +53,7 @@ export class QuestionEntity {
 		message: '"Descrição" deve ser maior que $constraint1'
 	})
 	@IsOptional()
-	public description: string;
+	public description?: string;
 
 	@Column({ name: 'discursive_answer', nullable: true })
 	@ApiProperty({

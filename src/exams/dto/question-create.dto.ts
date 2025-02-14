@@ -8,12 +8,11 @@ export class QuestionCreateDto
 	extends OmitType(QuestionEntity, ['id', 'code', 'isValidated', 'createdAt']) {
 
 	@ApiHideProperty()
-	private _id: QuestionEntity['id'];
+	private _id: QuestionEntity['id'] = randomUUID();
 
 
-	@Transform(({ value }) => value.toLowerCase())
-	@Transform(({ value }) => value.replace(" ", "-"))
-	private _code: QuestionEntity['code'];
+	@ApiProperty({ name: 'code', type: String })
+	private _code: string = this.id;
 
 
 	@ApiHideProperty()
@@ -23,31 +22,10 @@ export class QuestionCreateDto
 	public createdAt: Date = new Date();
 
 
-	public constructor(dto: QuestionCreateDtoType | any) {
-		super();
-		// console.debug(dto);
-
-		if (dto) {
-			// this.id = randomUUID();
-
-			this.id = 'jghisuvdgbfuysgf';
-			this.code = dto.code;
-
-			this.typeCode = dto.typeCode;
-			
-			this.title = dto.title;
-			this.subject = dto.subject;
-			this.description = dto.description;
-			this.discursiveAnswer = dto.discursiveAnswer;
-		}
-	}
-
-
 	public get id(): QuestionEntity['id'] {
 		return this._id;
 	}
 	public set id(value: QuestionEntity['id']) {
-		console.debug('set id')
 		if (!value) {
 			this._id = randomUUID();
 		} else {
@@ -55,11 +33,12 @@ export class QuestionCreateDto
 		}
 	}
 
+	@Transform(({ value }) => value.toLowerCase())
+	@Transform(({ value }) => value.replace(" ", "-"))
 	public get code(): string {
 		return this._code;
 	}
 	public set code(value: string) {
-		console.debug('set code')
 		if (value || value != "") {
 			this._code = value;
 		} else {
