@@ -1,10 +1,11 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, Query } from '@nestjs/common';
 // import { QuestionsService } from './questions.service';
 // import { CreateQuestionDto } from './dto/create-exam.dto';
 // import { UpdateQuestionDto } from './dto/update-exam.dto';
 import { ApiTags } from '@nestjs/swagger';
 import { QuestionsService } from '../services/questions.service';
 import { QuestionCreateDto } from '../dto/question-create.dto';
+import { QuestionSearchDto } from '../dto/question-search.dto';
 
 @Controller('questions')
 @ApiTags('Questions')
@@ -23,9 +24,11 @@ export class QuestionsController {
 		return await this._service.newQuestion(createQuestionDto);
 	}
 
-	@Get('/all')
-	public async getQuestionsAll() {
-		return this._service.findAllQuestions();
+	@Get('/search')
+	public async getQuestionsSearch(
+		@Query() search: QuestionSearchDto
+	) {
+		return await this._service.searchQuestions(search);
 	}
 
 	@Get('/:id')

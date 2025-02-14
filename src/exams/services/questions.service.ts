@@ -3,6 +3,7 @@ import { QuestionCreateDto } from '../dto/question-create.dto';
 import { QuestionEntity } from '../entities/question.entity';
 import { QuestionRepository } from '../repositories/questions.repository';
 import { QuestionUniqueDto } from '../dto/question-uniques.dto';
+import { QuestionSearchDto } from '../dto/question-search.dto';
 
 @Injectable()
 export class QuestionsService {
@@ -19,12 +20,11 @@ export class QuestionsService {
 			throw new UnprocessableEntityException(`Código já em uso`);
 		}
 
-		// return question.toEntity();
 		return await this._repository.createQuestion(question.toEntity());
 	}
 
-	public async findAllQuestions() {
-		return await this._repository.selectAllQuestions();
+	public async searchQuestions(search: QuestionSearchDto) {
+		return await this._repository.selectManyQuestions(search);
 	}
 
 	public async findQuestionByUnique(uniques: QuestionUniqueDto) {

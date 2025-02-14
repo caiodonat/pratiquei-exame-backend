@@ -1,5 +1,5 @@
 import { Inject, Injectable } from '@nestjs/common';
-import { CreateExamDto } from './dto/create-exam.dto';
+import { CreateExamDto } from './dto/exam-create.dto';
 import { UpdateExamDto } from './dto/update-exam.dto';
 import { ExamEntity } from './entities/exam.entity';
 import { ExamRepository } from './exams.repository';
