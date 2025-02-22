@@ -1,4 +1,18 @@
 {
+  "paths": {
+    "@app/*": [
+      "src/app/*"
+    ],
+    "@config/*": [
+      "src/config/*"
+    ],
+    "@users/*": [
+      "src/users/*"
+    ],
+    "@exams/*": [
+      "src/exams/*"
+    ]
+  },
   "compilerOptions": {
     "module": "commonjs",
     "declaration": true,
@@ -18,5 +32,7 @@
     "forceConsistentCasingInFileNames": false,
     "noFallthroughCasesInSwitch": false
   },
-  "include": ["src/**/*"]
+  "include": [
+    "src/**/*"
+  ]
 }

@@ -5,6 +5,7 @@ import { QuestionCreateDto } from "../dto/question-create.dto";
 import { ExamEntity } from "./exam.entity";
 import { QUESTION_TYPE } from "../enums/questionType.enum";
 import { instanceToPlain, plainToClass, Transform } from "class-transformer";
+import { AlternativeEntity } from "./alternative.entity";
 // import { QuestionCreateDtoType } from "../dto/question-create.dto";
 
 @Entity('questions')
@@ -31,9 +32,7 @@ export class QuestionEntity {
 
 
 	@Column()
-	@ApiProperty({
-		type: String,
-	})
+	@ApiProperty({ type: String, })
 	@Length(3, 255, {
 		message: '"Titulo" deve ser maior que $constraint1'
 	})
@@ -46,9 +45,7 @@ export class QuestionEntity {
 	public subject: string;
 
 	@Column({ nullable: true })
-	@ApiProperty({
-		type: String,
-	})
+	@ApiProperty({ type: String, })
 	@Length(3, 255, {
 		message: '"Descrição" deve ser maior que $constraint1'
 	})
@@ -80,6 +77,12 @@ export class QuestionEntity {
 	})
 	@JoinTable({ name: '_questions_on_exams' })
 	public exams: ExamEntity[];
+
+	@ManyToOne(() => AlternativeEntity, (exams: AlternativeEntity) => exams.question, {
+		onDelete: 'CASCADE'
+	})
+	public alternatives: AlternativeEntity[] = [];
+
 
 	// question_origin_id varchar [ref: > question_origin.id]
 	// origin_person_id varchar [ref: > persons.id]

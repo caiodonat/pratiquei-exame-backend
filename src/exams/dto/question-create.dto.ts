@@ -2,10 +2,12 @@ import { ApiHideProperty, ApiProperty, OmitType } from "@nestjs/swagger";
 import { randomUUID } from "crypto";
 import { QuestionEntity } from "../entities/question.entity";
 import { Transform } from "class-transformer";
+import { AlternativeEntity } from "../entities/alternative.entity";
+import { AlternativeCreateDto } from "./alternative-create.dto";
 
 
 export class QuestionCreateDto
-	extends OmitType(QuestionEntity, ['id', 'code', 'isValidated', 'createdAt']) {
+	extends OmitType(QuestionEntity, ['id', 'code', 'isValidated', 'createdAt', 'alternatives']) {
 
 	@ApiHideProperty()
 	private _id: QuestionEntity['id'] = randomUUID();
@@ -20,6 +22,9 @@ export class QuestionCreateDto
 
 	@ApiHideProperty()
 	public createdAt: Date = new Date();
+
+	@ApiProperty({ type: AlternativeCreateDto, isArray: true })
+	public alternatives: AlternativeCreateDto[];
 
 
 	public get id(): QuestionEntity['id'] {

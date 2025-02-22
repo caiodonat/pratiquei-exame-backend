@@ -4,6 +4,7 @@ import { QuestionEntity } from '../entities/question.entity';
 import { QuestionRepository } from '../repositories/questions.repository';
 import { QuestionUniqueDto } from '../dto/question-uniques.dto';
 import { QuestionSearchDto } from '../dto/question-search.dto';
+import { AlternativeCreateDto } from '../dto/alternative-create.dto';
 
 @Injectable()
 export class QuestionsService {
@@ -12,15 +13,28 @@ export class QuestionsService {
 		private readonly _repository: QuestionRepository,
 	) { }
 
+	/**
+	 * @todo
+	 * - gerar ordem com base na ordem dos items, caso não informado.
+	 * - validar `dto.alternatives[].isCorrect` com `dto.typeCode`.
+	 */
 	public async newQuestion(dto: QuestionCreateDto) {
-		const question = dto;
+		const question = dto.toEntity();
 
 		const questionRelated = await this.findQuestionByUnique(dto);
 		if (questionRelated) {
 			throw new UnprocessableEntityException(`Código já em uso`);
 		}
 
-		return await this._repository.createQuestion(question.toEntity());
+		question.alternatives = [];
+
+		for (let i = 0; i < dto.alternatives.length; i++) {
+			const element = dto.alternatives[i];
+
+			question.alternatives.push(new AlternativeCreateDto(element).toEntity());
+		}
+
+		return await this._repository.createQuestion(question);
 	}
 
 	public async searchQuestions(search: QuestionSearchDto) {
