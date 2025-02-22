@@ -3,6 +3,7 @@ import { AppModule } from './app/app.module';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { UserSearchDto } from './users/dto/search-user.dto';
 import { ValidationPipe } from '@nestjs/common';
+import { InternalDisabledLogger } from './app/app.logger';
 
 
 async function bootstrap() {
@@ -11,7 +12,7 @@ async function bootstrap() {
 	const APP_PORT = process.env.APP_PORT || 3333;
 
 	const app = await NestFactory.create(AppModule, {
-		logger: ['error', 'debug', 'fatal', 'warn', 'debug', 'log']
+		logger: new InternalDisabledLogger
 	});
 
 	app.setGlobalPrefix('api');

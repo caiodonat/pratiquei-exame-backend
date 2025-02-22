@@ -11,7 +11,7 @@ export const databaseProviders = [
 					__dirname + '/../**/*.entity{.ts,.js}',
 				],
 				synchronize: true,
-				logging: ['migration', 'query']
+				logging: ['migration', 'error', 'warn']
 			});
 
 			return dataSource.initialize();

@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import { MiddlewareConsumer, Module, RequestMethod } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { ConfigModule } from '@nestjs/config';
@@ -8,6 +8,7 @@ import { ExamsModule } from '../exams/exams.module';
 import configuration from '../config/configuration';
 import { ServeStaticModule } from '@nestjs/serve-static';
 import { join } from 'path';
+import { LoggerMiddleware } from './app.middleware';
 
 @Module({
   imports: [
@@ -29,4 +30,11 @@ import { join } from 'path';
   controllers: [AppController],
   providers: [AppService],
 })
-export class AppModule { }
+export class AppModule { 
+  
+	public configure(consumer: MiddlewareConsumer) {
+		consumer
+			.apply(LoggerMiddleware)
+			.forRoutes({ path: '*', method: RequestMethod.ALL })
+  }
+}
