@@ -2,9 +2,13 @@
   "name": "pratiquei-exame",
   "version": "0.0.1",
   "description": "",
-  "author": "",
+  "author": "@caiodonat <cdonat.dev@gmail.com>",
   "private": true,
   "license": "UNLICENSED",
+  "engines": {
+    "node": "22.14.0",
+    "vscode": "^1.97.2"
+  },
   "scripts": {
     "build": "nest build",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",

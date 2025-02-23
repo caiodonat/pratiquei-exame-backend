@@ -3,6 +3,7 @@ import { Repository } from 'typeorm';
 import { QuestionEntity } from '../entities/question.entity';
 import { QuestionUniqueDto } from '../dto/question-uniques.dto';
 import { QuestionSearchDto } from '../dto/question-search.dto';
+import { QuestionSelectDto } from '../dto/question-select.dto';
 
 @Injectable()
 export class QuestionRepository {
@@ -17,8 +18,7 @@ export class QuestionRepository {
 	}
 
 	public async selectManyQuestions(search: QuestionSearchDto): Promise<QuestionEntity[]> {
-		const query = this._repository
-			.createQueryBuilder('questions');
+		const query = this._repository.createQueryBuilder('questions');
 
 		if (search.id) {
 			query.where('questions.id = :id', { id: search.id })
@@ -33,6 +33,33 @@ export class QuestionRepository {
 			query.andWhere(`questions.subject LIKE :subject`, { subject: `%${search.subject}%` })
 		}
 
+		return await query.getMany();
+	}
+
+	public async selectAllQuestionWithSelect(select: QuestionSelectDto): Promise<QuestionEntity[]> {
+		const query = this._repository.createQueryBuilder('questions');
+		const selectFields: string[] = [];
+
+		selectFields.push('questions.id');
+
+		if (select.code)
+			selectFields.push('questions.code');
+		if (select.typeCode)
+			selectFields.push('questions.type_code');
+		if (select.title)
+			selectFields.push('questions.title');
+		if (select.subject)
+			selectFields.push('questions.subject');
+		if (select.description)
+			selectFields.push('questions.description');
+		if (select.discursiveAnswer)
+			selectFields.push('questions.discursiveAnswer');
+		if (select.isValidated)
+			selectFields.push('questions.isValidated');
+		if (select.createdAt)
+			selectFields.push('questions.createdAt');
+
+		query.select(selectFields);
 		return await query.getMany();
 	}
 

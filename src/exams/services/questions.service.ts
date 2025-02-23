@@ -5,6 +5,7 @@ import { QuestionRepository } from '../repositories/questions.repository';
 import { QuestionUniqueDto } from '../dto/question-uniques.dto';
 import { QuestionSearchDto } from '../dto/question-search.dto';
 import { AlternativeCreateDto } from '../dto/alternative-create.dto';
+import { QuestionSelectDto } from '../dto/question-select.dto';
 
 @Injectable()
 export class QuestionsService {
@@ -39,6 +40,10 @@ export class QuestionsService {
 
 	public async searchQuestions(search: QuestionSearchDto) {
 		return await this._repository.selectManyQuestions(search);
+	}
+
+	public async listAllQuestion(select: QuestionSelectDto) {
+		return await this._repository.selectAllQuestionWithSelect(select);
 	}
 
 	public async findQuestionByUnique(uniques: QuestionUniqueDto) {

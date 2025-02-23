@@ -81,7 +81,7 @@ export class QuestionEntity {
 	@ManyToOne(() => AlternativeEntity, (exams: AlternativeEntity) => exams.question, {
 		onDelete: 'CASCADE'
 	})
-	public alternatives: AlternativeEntity[] = [];
+	public alternatives: AlternativeEntity[];
 
 
 	// question_origin_id varchar [ref: > question_origin.id]

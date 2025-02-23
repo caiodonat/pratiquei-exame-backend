@@ -2,10 +2,11 @@ import { Controller, Get, Post, Body, Patch, Param, Delete, Query } from '@nestj
 // import { QuestionsService } from './questions.service';
 // import { CreateQuestionDto } from './dto/create-exam.dto';
 // import { UpdateQuestionDto } from './dto/update-exam.dto';
-import { ApiTags } from '@nestjs/swagger';
+import { ApiOperation, ApiTags } from '@nestjs/swagger';
 import { QuestionsService } from '../services/questions.service';
 import { QuestionCreateDto } from '../dto/question-create.dto';
 import { QuestionSearchDto } from '../dto/question-search.dto';
+import { QuestionSelectDto } from '../dto/question-select.dto';
 
 @Controller('questions')
 @ApiTags('Questions')
@@ -23,6 +24,15 @@ export class QuestionsController {
 	) {
 		return await this._service.newQuestion(createQuestionDto);
 	}
+
+	@Get('/all')
+	@ApiOperation({description: `Listar todas as **Questões** selecionando campos.`})
+	public async getAllQuestionsMinimal(
+		@Query() select: QuestionSelectDto
+	) {
+		return await this._service.listAllQuestion(select);
+	}
+
 
 	@Get('/search')
 	public async getQuestionsSearch(
