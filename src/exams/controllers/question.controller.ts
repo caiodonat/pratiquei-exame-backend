@@ -26,7 +26,7 @@ export class QuestionsController {
 	}
 
 	@Get('/all')
-	@ApiOperation({description: `Listar todas as **Questões** selecionando campos.`})
+	@ApiOperation({ description: `Listar todas as **Questões** selecionando campos.` })
 	public async getAllQuestionsMinimal(
 		@Query() select: QuestionSelectDto
 	) {
@@ -42,10 +42,11 @@ export class QuestionsController {
 	}
 
 	@Get('/:id')
+	@ApiOperation({ description: `Obter **Questão** por valor único, incluindo racionamentos.` })
 	public async getQuestionsId(
 		@Param('id') id: string
 	) {
-		// return this._service.findQuestion(id);
+		return this._service.findQuestionByUnique({ id });
 	}
 
 	@Patch('/:id')

@@ -20,18 +20,14 @@ export class QuestionRepository {
 	public async selectManyQuestions(search: QuestionSearchDto): Promise<QuestionEntity[]> {
 		const query = this._repository.createQueryBuilder('questions');
 
-		if (search.id) {
+		if (search.id)
 			query.where('questions.id = :id', { id: search.id })
-		}
-		if (search.code) {
+		if (search.code)
 			query.andWhere(`questions.code LIKE :code`, { code: `%${search.code}%` })
-		}
-		if (search.title) {
+		if (search.title)
 			query.andWhere(`questions.title LIKE :title`, { title: `%${search.title}%` })
-		}
-		if (search.subject) {
+		if (search.subject)
 			query.andWhere(`questions.subject LIKE :subject`, { subject: `%${search.subject}%` })
-		}
 
 		return await query.getMany();
 	}
@@ -64,11 +60,16 @@ export class QuestionRepository {
 	}
 
 	public async selectSafeQuestionById(uniques: QuestionUniqueDto): Promise<QuestionEntity> {
-		return await this._repository
-			.createQueryBuilder('questions')
-			.where('questions.id = :id', { id: uniques.id })
-			.orWhere('questions.code = :code', { code: uniques.code })
-			.getOne();
+		const query = this._repository.createQueryBuilder('questions')
+			.leftJoinAndSelect('questions.alternatives', 'alternatives')
+
+		if (uniques.id)
+			query.where(`questions.id LIKE :id`, { id: `%${uniques.id}%` })
+
+		if (uniques.code)
+			query.orWhere(`questions.code LIKE :code`, { code: `%${uniques.code}%` })
+
+		return await query.getOne();
 	}
 
 	// public async updateQuestion(QuestionId: QuestionEntity['id'], updateQuestionDto: UpdateQuestionDto): Promise<QuestionEntity> {

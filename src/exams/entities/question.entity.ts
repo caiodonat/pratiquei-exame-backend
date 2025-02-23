@@ -1,6 +1,6 @@
 import { ApiProperty } from "@nestjs/swagger";
 import { IsEnum, IsOptional, Length, Min, validateSync } from "class-validator";
-import { Column, CreateDateColumn, Entity, JoinColumn, JoinTable, ManyToMany, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
+import { Column, CreateDateColumn, Entity, JoinColumn, JoinTable, ManyToMany, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 import { QuestionCreateDto } from "../dto/question-create.dto";
 import { ExamEntity } from "./exam.entity";
 import { QUESTION_TYPE } from "../enums/questionType.enum";
@@ -78,8 +78,9 @@ export class QuestionEntity {
 	@JoinTable({ name: '_questions_on_exams' })
 	public exams: ExamEntity[];
 
-	@ManyToOne(() => AlternativeEntity, (exams: AlternativeEntity) => exams.question, {
-		onDelete: 'CASCADE'
+	@OneToMany(() => AlternativeEntity, (exams: AlternativeEntity) => exams.question, {
+		// onDelete: 'CASCADE',
+		cascade: ['insert', 'remove']
 	})
 	public alternatives: AlternativeEntity[];
 

@@ -28,7 +28,6 @@ async function bootstrap() {
 	const config = new DocumentBuilder()
 		.setTitle('Pratiquei Exame (REST API)')
 		.setVersion('v0.1.0-alpha')
-		// .setTitle('UVV-ADS-2024')
 		.build();
 
 	const document = SwaggerModule.createDocument(app, config,);

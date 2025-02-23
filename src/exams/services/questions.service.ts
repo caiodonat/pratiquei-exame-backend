@@ -6,6 +6,7 @@ import { QuestionUniqueDto } from '../dto/question-uniques.dto';
 import { QuestionSearchDto } from '../dto/question-search.dto';
 import { AlternativeCreateDto } from '../dto/alternative-create.dto';
 import { QuestionSelectDto } from '../dto/question-select.dto';
+import { QUESTION_TYPE } from '../enums/questionType.enum';
 
 @Injectable()
 export class QuestionsService {
@@ -17,7 +18,6 @@ export class QuestionsService {
 	/**
 	 * @todo
 	 * - gerar ordem com base na ordem dos items, caso não informado.
-	 * - validar `dto.alternatives[].isCorrect` com `dto.typeCode`.
 	 */
 	public async newQuestion(dto: QuestionCreateDto) {
 		const question = dto.toEntity();
@@ -29,11 +29,17 @@ export class QuestionsService {
 
 		question.alternatives = [];
 
-		for (let i = 0; i < dto.alternatives.length; i++) {
-			const element = dto.alternatives[i];
+		if (dto.alternatives && dto.alternatives.length > 0) {
+			for (let i = 0; i < dto.alternatives.length; i++) {
+				const element = dto.alternatives[i];
+				element.questionId = question.id;
 
-			question.alternatives.push(new AlternativeCreateDto(element).toEntity());
+				question.alternatives.push(new AlternativeCreateDto(element).toEntity());
+			}
 		}
+
+		this.validateQuestionAlternativesByQuestionType(question);
+
 
 		return await this._repository.createQuestion(question);
 	}
@@ -56,5 +62,43 @@ export class QuestionsService {
 
 	public async removeQuestion(id: QuestionEntity['id']) {
 		return await this._repository.deleteQuestionById(id);
+	}
+
+	private validateQuestionAlternativesByQuestionType(entity: QuestionEntity) {
+		const alternativesCorrects = entity.alternatives.filter(e => e.isCorrect == true);
+
+		switch (entity.typeCode) {
+			case QUESTION_TYPE.MULTIPLE_SINGLE:
+
+				if (alternativesCorrects.length != 1)
+					throw new UnprocessableEntityException(`"Questão" só pode ter uma "Alternativas" correta.`);
+
+				if (entity.discursiveAnswer)
+					throw new UnprocessableEntityException(`"Questão" não pode possuir resposta discursiva.`);
+
+				break;
+
+			case QUESTION_TYPE.MULTIPLE_MANY:
+
+				if (alternativesCorrects.length < 1)
+					throw new UnprocessableEntityException(`"Questão" tem que ter mais de uma "Alternativas" correta.`);
+
+				if (entity.discursiveAnswer)
+					throw new UnprocessableEntityException(`"Questão" não pode possuir resposta discursiva.`);
+
+				break;
+
+			case QUESTION_TYPE.DISCURSIVE:
+
+				if (!entity.discursiveAnswer)
+					throw new UnprocessableEntityException(`"Questão" tem que ter possuir resposta discursiva.`);
+				if (entity.alternatives && entity.alternatives.length > 0)
+					throw new UnprocessableEntityException(`"Questão" não pode possuir alternativas.`);
+				break;
+
+			default:
+				break;
+		}
+
 	}
 }

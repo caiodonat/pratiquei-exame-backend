@@ -1,5 +1,5 @@
 import { ApiProperty } from "@nestjs/swagger";
-import { Column, Entity, JoinColumn, OneToMany, PrimaryColumn, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, JoinColumn, ManyToOne, OneToMany, PrimaryColumn, PrimaryGeneratedColumn } from "typeorm";
 import { QuestionEntity } from "./question.entity";
 
 
@@ -32,7 +32,7 @@ export class AlternativeEntity {
 	public order: number;
 
 
-	@OneToMany(() => QuestionEntity, (question: QuestionEntity) => question.alternatives, {
+	@ManyToOne(() => QuestionEntity, (question: QuestionEntity) => question.alternatives, {
 		onDelete: 'CASCADE'
 	})
 	@JoinColumn({
