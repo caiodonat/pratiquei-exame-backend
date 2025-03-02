@@ -7,6 +7,8 @@ import { QuestionsService } from '../services/questions.service';
 import { QuestionCreateDto } from '../dto/question-create.dto';
 import { QuestionSearchDto } from '../dto/question-search.dto';
 import { QuestionSelectDto } from '../dto/question-select.dto';
+import { QuestionUniqueDto } from '../dto/question-unique.dto';
+import { QuestionIncludeDto } from '../dto/question-include.dto';
 
 @Controller('questions')
 @ApiTags('Questions')
@@ -41,12 +43,13 @@ export class QuestionsController {
 		return await this._service.searchQuestions(search);
 	}
 
-	@Get('/:id')
+	@Get('/unique')
 	@ApiOperation({ description: `Obter **Questão** por valor único, incluindo racionamentos.` })
 	public async getQuestionsId(
-		@Param('id') id: string
+		@Query() unique: QuestionUniqueDto,
+		@Query() include: QuestionIncludeDto
 	) {
-		return this._service.findQuestionByUnique({ id });
+		return this._service.findQuestionByUnique(unique, include);
 	}
 
 	@Patch('/:id')

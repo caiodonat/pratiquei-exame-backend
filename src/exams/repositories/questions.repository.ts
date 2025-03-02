@@ -1,9 +1,10 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { Repository } from 'typeorm';
 import { QuestionEntity } from '../entities/question.entity';
-import { QuestionUniqueDto } from '../dto/question-uniques.dto';
+import { QuestionUniqueDto } from '../dto/question-unique.dto';
 import { QuestionSearchDto } from '../dto/question-search.dto';
 import { QuestionSelectDto } from '../dto/question-select.dto';
+import { QuestionIncludeDto } from '../dto/question-include.dto';
 
 @Injectable()
 export class QuestionRepository {
@@ -59,9 +60,8 @@ export class QuestionRepository {
 		return await query.getMany();
 	}
 
-	public async selectSafeQuestionById(uniques: QuestionUniqueDto): Promise<QuestionEntity> {
+	public async selectSafeQuestionByUnique(uniques: QuestionUniqueDto, include?: QuestionIncludeDto): Promise<QuestionEntity> {
 		const query = this._repository.createQueryBuilder('questions')
-			.leftJoinAndSelect('questions.alternatives', 'alternatives')
 
 		if (uniques.id)
 			query.where(`questions.id LIKE :id`, { id: `%${uniques.id}%` })
@@ -69,6 +69,16 @@ export class QuestionRepository {
 		if (uniques.code)
 			query.orWhere(`questions.code LIKE :code`, { code: `%${uniques.code}%` })
 
+		if (include) {
+			if (include.alternatives) {
+				query.leftJoinAndSelect('questions.alternatives', 'alternatives')
+				query.orderBy(`alternatives.order`, 'ASC');
+			}
+
+			if (include.exams)
+				query.leftJoinAndSelect('questions.exams', 'exams')
+
+		}
 		return await query.getOne();
 	}
 

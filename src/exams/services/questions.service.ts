@@ -2,11 +2,12 @@ import { Inject, Injectable, UnprocessableEntityException } from '@nestjs/common
 import { QuestionCreateDto } from '../dto/question-create.dto';
 import { QuestionEntity } from '../entities/question.entity';
 import { QuestionRepository } from '../repositories/questions.repository';
-import { QuestionUniqueDto } from '../dto/question-uniques.dto';
+import { QuestionUniqueDto } from '../dto/question-unique.dto';
 import { QuestionSearchDto } from '../dto/question-search.dto';
 import { AlternativeCreateDto } from '../dto/alternative-create.dto';
 import { QuestionSelectDto } from '../dto/question-select.dto';
 import { QUESTION_TYPE } from '../enums/questionType.enum';
+import { QuestionIncludeDto } from '../dto/question-include.dto';
 
 @Injectable()
 export class QuestionsService {
@@ -52,8 +53,10 @@ export class QuestionsService {
 		return await this._repository.selectAllQuestionWithSelect(select);
 	}
 
-	public async findQuestionByUnique(uniques: QuestionUniqueDto) {
-		return await this._repository.selectSafeQuestionById(uniques);
+	public async findQuestionByUnique(unique: QuestionUniqueDto, include?: QuestionIncludeDto) {
+		this.validatingQuestionUniques(unique);
+
+		return await this._repository.selectSafeQuestionByUnique(unique, include);
 	}
 
 	// public async changeQuestion(id: QuestionEntity['id'], updateQuestionDto: UpdateQuestionDto) {
@@ -100,5 +103,10 @@ export class QuestionsService {
 				break;
 		}
 
+	}
+
+	private validatingQuestionUniques(unique: QuestionUniqueDto) {
+		if (!unique.id && !unique.code)
+			throw new UnprocessableEntityException(`Dado único de "Questão" não informado`);
 	}
 }
