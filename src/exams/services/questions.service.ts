@@ -45,8 +45,8 @@ export class QuestionsService {
 		return await this._repository.createQuestion(question);
 	}
 
-	public async searchQuestions(search: QuestionSearchDto) {
-		return await this._repository.selectManyQuestions(search);
+	public async searchQuestions(search: QuestionSearchDto, include?: QuestionIncludeDto) {
+		return await this._repository.selectManyQuestions(search, include);
 	}
 
 	public async listAllQuestion(select: QuestionSelectDto) {

@@ -18,18 +18,30 @@ export class QuestionRepository {
 		return await this._repository.save(newEntity);
 	}
 
-	public async selectManyQuestions(search: QuestionSearchDto): Promise<QuestionEntity[]> {
+	public async selectManyQuestions(search: QuestionSearchDto, include?: QuestionIncludeDto): Promise<QuestionEntity[]> {
 		const query = this._repository.createQueryBuilder('questions');
 
 		if (search.id)
 			query.where('questions.id = :id', { id: search.id })
 		if (search.code)
 			query.andWhere(`questions.code LIKE :code`, { code: `%${search.code}%` })
+		if (search.typeCode)
+			query.andWhere(`questions.type_code IN (:...typeCode)`, { typeCode: search.typeCode })
+		
 		if (search.title)
 			query.andWhere(`questions.title LIKE :title`, { title: `%${search.title}%` })
 		if (search.subject)
 			query.andWhere(`questions.subject LIKE :subject`, { subject: `%${search.subject}%` })
 
+		if (include) {
+			if (include.alternatives) {
+				query.leftJoinAndSelect('questions.alternatives', 'alternatives')
+				query.orderBy(`alternatives.order`, 'ASC');
+			}
+			if (include.exams)
+				query.leftJoinAndSelect('questions.exams', 'exams')
+		}
+		
 		return await query.getMany();
 	}
 
@@ -74,11 +86,10 @@ export class QuestionRepository {
 				query.leftJoinAndSelect('questions.alternatives', 'alternatives')
 				query.orderBy(`alternatives.order`, 'ASC');
 			}
-
 			if (include.exams)
 				query.leftJoinAndSelect('questions.exams', 'exams')
-
 		}
+
 		return await query.getOne();
 	}
 

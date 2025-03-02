@@ -1,9 +1,9 @@
 // import { source } from './database';
 import { Inject, Injectable } from '@nestjs/common';
-import { ExamEntity } from './entities/exam.entity';
-import { CreateExamDto } from './dto/exam-create.dto';
+import { ExamEntity } from '../entities/exam.entity';
+import { CreateExamDto } from '../dto/exam-create.dto';
 import { Repository } from 'typeorm';
-import { UpdateExamDto } from './dto/update-exam.dto';
+import { UpdateExamDto } from '../dto/update-exam.dto';
 
 @Injectable()
 export class ExamRepository {
