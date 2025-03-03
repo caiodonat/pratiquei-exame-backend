@@ -9,6 +9,7 @@ import configuration from '../config/configuration';
 import { ServeStaticModule } from '@nestjs/serve-static';
 import { join } from 'path';
 import { LoggerMiddleware } from './app.middleware';
+import { CoursesModule } from 'src/courses/courses.module';
 
 @Module({
   imports: [
@@ -26,6 +27,7 @@ import { LoggerMiddleware } from './app.middleware';
     DatabaseModule,
     UsersModule,
     ExamsModule,
+    CoursesModule
   ],
   controllers: [AppController],
   providers: [AppService],

@@ -1,19 +1,28 @@
 {
-  "paths": {
-    "@app/*": [
-      "src/app/*"
-    ],
-    "@config/*": [
-      "src/config/*"
-    ],
-    "@users/*": [
-      "src/users/*"
-    ],
-    "@exams/*": [
-      "src/exams/*"
-    ]
-  },
   "compilerOptions": {
+    "paths": {
+      "@app/*": [
+        "src/app/*"
+      ],
+      "@config/*": [
+        "src/config/*"
+      ],
+      "@database/*": [
+        "src/database/*"
+      ],
+      "@users/*": [
+        "src/users/*"
+      ],
+      "@exams/*": [
+        "src/exams/*"
+      ],
+      "@courses/*": [
+        "src/courses/*"
+      ]
+    },    
+    "importHelpers": true,
+    "resolveJsonModule": true,
+    "esModuleInterop": true,
     "module": "commonjs",
     "declaration": true,
     "removeComments": true,

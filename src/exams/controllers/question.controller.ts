@@ -1,8 +1,6 @@
 import { Controller, Get, Post, Body, Patch, Param, Delete, Query } from '@nestjs/common';
-// import { QuestionsService } from './questions.service';
-// import { CreateQuestionDto } from './dto/create-exam.dto';
-// import { UpdateQuestionDto } from './dto/update-exam.dto';
 import { ApiOperation, ApiTags } from '@nestjs/swagger';
+// 
 import { QuestionsService } from '../services/questions.service';
 import { QuestionCreateDto } from '../dto/question-create.dto';
 import { QuestionSearchDto } from '../dto/question-search.dto';

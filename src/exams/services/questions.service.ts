@@ -109,4 +109,11 @@ export class QuestionsService {
 		if (!unique.id && !unique.code)
 			throw new UnprocessableEntityException(`Dado único de "Questão" não informado`);
 	}
+
+	/**
+	 * @deprecated @wip 
+	 */
+	private randomizeQuestionAlternatives(question: QuestionEntity) {
+
+	}
 }
