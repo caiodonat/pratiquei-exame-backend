@@ -2,8 +2,10 @@ import { Inject, Injectable } from "@nestjs/common";
 import { Repository } from "typeorm";
 // 
 import { CourseEntity } from "./entities/course.entity";
-import { CourseSelectDto } from "./dto/courses-select.dto";
+import { CourseSelectDto } from "./dto/course-select.dto";
 import { CourseUniqueDto } from "./dto/course-unique.dto";
+import { CourseSearchDto } from "./dto/course-search.dto";
+import { CourseIncludeDto } from "./dto/course-include.dto";
 
 @Injectable()
 export class CoursesRepository {
@@ -52,5 +54,31 @@ export class CoursesRepository {
     }
 
     return await query.getOne();
+  }
+
+  public async selectManyCourses(search: CourseSearchDto, include?: CourseIncludeDto): Promise<CourseEntity[]> {
+    const query = this._repository.createQueryBuilder('courses');
+
+    if (search.id)
+      query.where('courses.id = :id', { id: search.id })
+    if (search.code)
+      query.andWhere(`courses.code LIKE :code`, { code: `%${search.code}%` })
+    if (search.name)
+      query.andWhere(`courses.name LIKE :name`, { name: `%${search.name}%` })
+    if (search.topic) {
+      query.leftJoinAndSelect("courses.topics", "topics")
+        .orderBy(`topics.order`, 'ASC');
+
+      query.andWhere("topics.name LIKE :topic", { topic: `%${search.topic}%` });
+    }
+
+    if (include) {
+      if (include.topics && !search.topic) {
+        query.leftJoinAndSelect('courses.topics', 'topics')
+          .orderBy(`topics.order`, 'ASC');
+      }
+    }
+
+    return await query.getMany();
   }
 }

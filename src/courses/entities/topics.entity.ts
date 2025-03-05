@@ -45,7 +45,7 @@ export class CourseTopicEntity {
 
 
   @ManyToOne(() => CourseEntity, (course: CourseEntity) => course.topics, {
-    onDelete: 'CASCADE'
+    onDelete: 'CASCADE', cascade: ['insert']
   })
 	@JoinColumn({ name: 'course_id' })
   course: CourseEntity;
@@ -53,6 +53,5 @@ export class CourseTopicEntity {
 
   public toJSON() {
     return instanceToPlain(this);
-    // return plainToClass(CourseTopicsEntity, this);
   }
 }

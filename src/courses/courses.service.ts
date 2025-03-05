@@ -3,8 +3,10 @@ import { Injectable, UnprocessableEntityException } from '@nestjs/common';
 import { CoursesRepository } from './courses.repository';
 import { CourseEntity } from './entities/course.entity';
 import { CourseTopicEntity } from './entities/topics.entity';
-import { CourseSelectDto } from './dto/courses-select.dto';
-import { CourseCreateNestedTopicsDto } from './dto/coursesTopics-create.dto';
+import { CourseSelectDto } from './dto/course-select.dto';
+import { CourseCreateNestedTopicsDto } from './dto/courseTopic-create.dto';
+import { CourseIncludeDto } from './dto/course-include.dto';
+import { CourseSearchDto } from './dto/course-search.dto';
 
 
 @Injectable()
@@ -23,11 +25,16 @@ export class CoursesService {
     if (courseRelated)
       throw new UnprocessableEntityException(`Dados do únicos do "Curso" já em uso`);
 
-    return course;
+    // return course;
+    return await this._repository.upsertCourse(course);
   }
 
   public async listAllQuestion(select: CourseSelectDto) {
     return await this._repository.selectAllCourseWithSelect(select);
+  }
+
+  public async searchQuestion(search: CourseSearchDto, include?: CourseIncludeDto): Promise<CourseEntity[]> {
+    return await this._repository.selectManyCourses(search, include);
   }
 
   private setValidatingTopics(dto: CourseCreateNestedTopicsDto): CourseTopicEntity[] {

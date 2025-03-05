@@ -13,13 +13,13 @@ export class CourseEntity {
     format: 'uuid',
   })
   public id: string;
-  
-	/**
-	 * Only `kebab-case`.
-	 */
-	@Column({ unique: true, nullable: true })
-	@ApiProperty({ type: String })
-	public code: string;
+
+  /**
+   * Only `kebab-case`.
+   */
+  @Column({ unique: true, nullable: true })
+  @ApiProperty({ type: String })
+  public code: string;
 
 
   @Column()
@@ -27,8 +27,14 @@ export class CourseEntity {
   public name: string;
 
 
+  /**
+   * [ CURRENT, COMPLETED ]
+   */
+  // public status: Enumerator;
+
+
   @OneToMany(() => CourseTopicEntity, (topics: CourseTopicEntity) => topics.course, {
-    onDelete: 'CASCADE'
+    cascade: ['insert', 'remove']
   })
   topics: CourseTopicEntity[];
 
