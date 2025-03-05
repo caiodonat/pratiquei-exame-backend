@@ -2,7 +2,6 @@ import { ApiHideProperty, ApiProperty, OmitType } from "@nestjs/swagger";
 import { randomUUID } from "crypto";
 import { QuestionEntity } from "../entities/question.entity";
 import { Transform } from "class-transformer";
-import { AlternativeEntity } from "../entities/alternative.entity";
 import { AlternativeCreateDto } from "./alternative-create.dto";
 
 
