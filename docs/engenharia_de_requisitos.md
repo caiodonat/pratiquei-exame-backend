@@ -17,15 +17,15 @@ text.
 
 ### Rotas
 
-- `/api/courses`
-	- `POST /full`
-	- `GET /unique`
-  - `GET /search`
-  - `PATCH /full/unique`
+- `/api/courses` | Gestão **Cursos**.
+  - `POST /full` | Cadastrar **Curso** e seus **Tópicos**.
+  - `GET /unique` | Obter dados de um **Curso**.
+  - `GET /search` | Pesquisar **Cursos**.
+  - `PATCH /full/unique` | Atualizar cadastro de um **Curso** e seus **Tópicos**.
 
-- `/api/exams`
-	- `/api/exams/save? unique & user_id`
-	- `/api/exams/saved? user_id`
+- `/api/exams` | Gestão **Exames**
+  - `/api/exams/save? unique & user_id` | Adicionar um **Exame** na lista de salvos do **Usuário**.
+  - `/api/exams/saved? user_id` | Obter lista de **Exames** salvos do **Usuário**
 
 - `/api/questions`
-	- `POST /approve? unique & user_id`
+  - `POST /approve? unique & user_id`

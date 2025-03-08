@@ -36,7 +36,7 @@ async function bootstrap() {
 		jsonDocumentUrl: 'openapi.json',
 		explorer: true,
 		swaggerOptions: {
-			docExpansion: "none"
+			// docExpansion: "none"
 		}
 	});
 

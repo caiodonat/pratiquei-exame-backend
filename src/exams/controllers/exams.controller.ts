@@ -1,5 +1,5 @@
 import { Controller, Get, Post, Body, Patch, Param, Delete, Query } from '@nestjs/common';
-import { ApiTags } from '@nestjs/swagger';
+import { ApiOperation, ApiTags } from '@nestjs/swagger';
 // 
 import { ExamsService } from '../services/exams.service';
 import { CreateExamDto } from '../dto/exam-create.dto';
@@ -19,6 +19,7 @@ export class ExamsController {
 	 */
 	// @Roles(['ADMIN'])
 	@Post('/')
+	@ApiOperation({ summary: `Criar um Exame` })
 	public async postExam(
 		@Body() createExamDto: CreateExamDto
 	) {
@@ -26,11 +27,13 @@ export class ExamsController {
 	}
 
 	@Get('/all')
+	@ApiOperation({ summary: `Obter todos os Exames com dados reduzidos` })
 	public async getExamsAll() {
 		return this._service.findAllExams();
 	}
 
 	@Get('/random')
+	@ApiOperation({ summary: `Gerar um Exame aleatório com base em parâmetros` })
 	public async getExamRandom(
 		@Query() params: ExamGenerateParams
 	) {
@@ -42,6 +45,7 @@ export class ExamsController {
 	 * - change to `getExamsUnique`
 	 */
 	@Get('/:id')
+	@ApiOperation({ summary: `Obter detalhes de um Exame por valor único` })
 	public async getExamsId(
 		@Param('id') id: string
 	) {
@@ -49,6 +53,7 @@ export class ExamsController {
 	}
 
 	@Patch('/:id')
+	@ApiOperation({ summary: `Atualizar um Exame e suas Questões` })
 	public async patchExams(
 		@Param('id') id: string,
 		@Body() updateExamDto: UpdateExamDto
@@ -57,6 +62,7 @@ export class ExamsController {
 	}
 
 	@Delete('/:id')
+	@ApiOperation({ summary: `Apagar um Exame` })
 	public async deleteExamsId(
 		@Param('id') id: string
 	) {

@@ -18,15 +18,16 @@ export class QuestionsController {
 	/**
 	 * @todo Qualquer um pode 'submeter uma **Questão**'.
 	 */
-	@Post('/')
-	public async postQuestion(
+	@Post('/request')
+	@ApiOperation({ summary: `Submeter nova Questão` })
+	public async postQuestionRequest(
 		@Body() createQuestionDto: QuestionCreateDto
 	) {
 		return await this._service.newQuestion(createQuestionDto);
 	}
 
 	@Get('/all')
-	@ApiOperation({ description: `Listar todas as **Questões** selecionando campos.` })
+	@ApiOperation({ summary: `Listar todas as Questões selecionando propriedades` })
 	public async getAllQuestionsMinimal(
 		@Query() select: QuestionSelectDto
 	) {
@@ -35,6 +36,7 @@ export class QuestionsController {
 
 
 	@Get('/search')
+	@ApiOperation({ summary: `Pesquisar Questões utilizando filtros` })
 	public async getQuestionsSearch(
 		@Query() search: QuestionSearchDto
 	) {
@@ -42,7 +44,7 @@ export class QuestionsController {
 	}
 
 	@Get('/unique')
-	@ApiOperation({ description: `Obter **Questão** por valor único, incluindo racionamentos.` })
+	@ApiOperation({ summary: `Obter Questão por valor único e incluindo racionamentos` })
 	public async getQuestionsId(
 		@Query() unique: QuestionUniqueDto,
 		@Query() include: QuestionIncludeDto
@@ -51,6 +53,7 @@ export class QuestionsController {
 	}
 
 	@Patch('/:id')
+	@ApiOperation({ summary: `Atualizar dados de uma Questão e suas alternativas` })
 	public async patchQuestions(
 		@Param('id') id: string,
 		@Body() updateQuestionDto/* : UpdateQuestionDto */
@@ -59,6 +62,7 @@ export class QuestionsController {
 	}
 
 	@Delete('/:id')
+	@ApiOperation({ summary: `Apagar uma Questão por valor único` })
 	public async deleteQuestionsId(
 		@Param('id') id: string
 	) {

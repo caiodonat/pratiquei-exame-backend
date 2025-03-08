@@ -1,5 +1,5 @@
 import { Body, Controller, Get, Post, Query } from '@nestjs/common';
-import { ApiCreatedResponse, ApiOkResponse, ApiTags } from '@nestjs/swagger';
+import { ApiCreatedResponse, ApiOkResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
 // 
 import { CourseEntity } from './entities/course.entity';
 import { CoursesService } from './courses.service';
@@ -18,6 +18,7 @@ export class CoursesController {
 
   @Post('/full')
   // @Roles(['ADMIN'])
+  @ApiOperation({ summary: `Cadastrar um Curso e seus Tópicos` })
   @ApiCreatedResponse({ type: CourseEntity })
   public async postCourses(
     @Body() dto: CourseCreateNestedTopicsDto
@@ -26,8 +27,8 @@ export class CoursesController {
   }
 
   @Get('/all')
+	@ApiOperation({ summary: `Listar todos os Cursos selecionando propriedades` })
   @ApiOkResponse({ type: CourseEntity, isArray: true })
-  // @ApiOperation({ description: `Listar todas as **Questões** selecionando campos.` })
   public async getAllCoursesMinimal(
     @Query() select: CourseSelectDto
   ) {
@@ -35,6 +36,7 @@ export class CoursesController {
   }
 
   @Get('search')
+	@ApiOperation({ summary: `Pesquisar Cursos utilizando filtros` })
   @ApiOkResponse({ type: CourseEntity, isArray: true })
   public async getCoursesSearch(
     @Query() search: CourseSearchDto,
