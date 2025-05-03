@@ -15,6 +15,11 @@
 
 - [ ] Endpoint para geração de exames
 - [ ] Validação de questões (auto correção) múltipla escolha
+- [ ] Gestão de **Cursos**.
+  - [ ] Cadastrar **Curso** e seus **Tópicos**.
+  - [ ] Obter dados de um **Curso**.
+  - [ ] Pesquisar **Cursos**.
+  - [ ] Atualizar cadastro de um **Curso** e seus **Tópicos**.
 
 ### v0.2.0
 
@@ -25,11 +30,6 @@
 
 ## v0.1.0 (????-??-??)
 
-- [ ] Gestão de **Cursos**.
-  - [ ] Cadastrar **Curso** e seus **Tópicos**.
-  - [ ] Obter dados de um **Curso**.
-  - [ ] Pesquisar **Cursos**.
-  - [ ] Atualizar cadastro de um **Curso** e seus **Tópicos**.
 - [ ] Gestão de **Usuários**.
   - [ ] Login de **Usuário**.
   - [ ] Cadastrar **Usuário**.
