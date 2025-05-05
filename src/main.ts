@@ -11,7 +11,12 @@ async function bootstrap() {
 
 	const APP_PORT = process.env.APP_PORT || 3333;
 
-	const app = await NestFactory.create(AppModule, {
+	const app = await NestFactory.create(
+		AppModule.register({
+			databaseType: 'sqlite',
+			loggerLevel: ['query-hit', 'query', 'info', 'error', 'log', 'warn'],
+			envFile: ['.env.test']
+		}), {
 		logger: new InternalDisabledLogger
 	});
 
@@ -36,7 +41,7 @@ async function bootstrap() {
 		jsonDocumentUrl: 'openapi.json',
 		explorer: true,
 		swaggerOptions: {
-			// docExpansion: "none"
+			docExpansion: "none"
 		}
 	});
 

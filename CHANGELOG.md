@@ -2,16 +2,16 @@
 
 ## Roadmap
 
-### v0.5.0
+### v0.6.0
 
 - [ ] Níveis de dificuldade para **Questões**
 - [ ] Dashboard para **Usuários** admin
 
-### v0.4.0
+### v0.5.0
 
 - [ ] _frontend_ mínimo para teste de _mono-repositório_
 
-### v0.3.0
+### v0.4.0
 
 - [ ] Endpoint para geração de exames
 - [ ] Validação de questões (auto correção) múltipla escolha
@@ -21,14 +21,14 @@
   - [ ] Pesquisar **Cursos**.
   - [ ] Atualizar cadastro de um **Curso** e seus **Tópicos**.
 
-### v0.2.0
+### v0.3.0
 
 - [ ] hospedar o projeto na **AWS**
   - [ ] Instância EC2
   - [ ] Balanceador de carga
   - [ ] Configuração de domínio
 
-## v0.1.0 (????-??-??)
+### v0.2.0
 
 - [ ] Gestão de **Usuários**.
   - [ ] Login de **Usuário**.
@@ -37,17 +37,15 @@
   - [ ] Alterar papel de **Usuário**.
   - [ ] Obter **Usuário** por valor único.
   - [ ] Listar todos os **Usuários** selecionando campos.
+
 - [ ] Sistema de autenticação.
   - [ ] Autenticar **Usuário**.
   - [ ] Criar token JWT.
   - [ ] Validar token JWT.
   - [ ] Criar middleware para validar token JWT.
-- [ ] Arquitetura interna da aplicação:
-  - [ ] `AppModule` dinamicamente configurável.
-  - [ ] `ConfigurationModule` para configuração de variáveis de ambiente.
-  - [ ] `DatabaseModule` para configuração de banco de dados dinâmica.
-  - [ ] `LoggerModule` para configuração de logger.
-  - [ ] Segregação de definições de entidades (tabela e `openapi`).
+
+## v0.1.0 (????-??-??)
+
 - [ ] Ambiente de desenvolvimento:
   - [ ] Docker para desenvolvimento (`devcontainer`).
   - [ ] Docker para produção.
@@ -55,3 +53,10 @@
 - [ ] Testes:
   - [ ] Testes e2e para todos _controllers_.
   - [ ] Provedor de banco de dados em memoria (SQLite).
+- [x] Arquitetura interna da aplicação:
+  <!-- - [ ] Segregação de definições de entidades (tabela e `openapi`). -->
+  - [ ] `LoggerModule` para configuração de logger.
+  - [x] `DatabaseModule` para configuração de banco de dados dinâmica.
+  - [x] `ConfigurationModule` para configuração de variáveis de ambiente.
+  - [x] `AppModule` dinamicamente configurável.
+  <!-- - [ ] Sistema de auditoria. -->

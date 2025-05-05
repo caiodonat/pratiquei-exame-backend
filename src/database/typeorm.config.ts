@@ -1,34 +1,62 @@
-// import env from "../config/configuration";
-// import { DataSourceOptions } from "typeorm";
-// import * as dotenv from 'dotenv';
+import { DataSourceOptions } from "typeorm";
+import * as dotenv from 'dotenv';
+// 
+import { MyTypeORMLogger } from "./typeorm.logger";
+import { EnvironmentVariables } from "@config/env.validations";
 
-// /// Atualiza Variáveis de ambiente.
-// dotenv.config();
+dotenv.config();
 
-// export const sqliteDataSource: DataSourceOptions = {
-// 	type: 'sqlite',
-// 	database: env().database.host,
-// 	entities: [
-// 		__dirname + '/../**/*.entity{.ts,.js}',
-// 	],
-// 	migrations: [
-// 		__dirname + '/../**/migrations/*{.ts,.js}',
-// 	],
-// 	synchronize: false,
-// };
+const env = new EnvironmentVariables(dotenv.config().parsed);
 
-// export const psqlDataSource: DataSourceOptions = {
-// 	type: 'postgres',
-// 	username: env().database.user,
-// 	password: env().database.pass,
-// 	host: env().database.host,
-// 	database: env().database.name,
-// 	entities: [
-// 		__dirname + '/../**/*.entity{.ts,.js}',
-// 	],
-// 	// synchronize: true,
-// 	migrations: [
-// 		__dirname + '/../**/migrations/*{.ts,.js}',
-// 	],
-// 	logging: 'all'
-// };
+export const baseConfig = {
+  entities: [
+    __dirname + '/../**/*.entity{.ts,.js}',
+    __dirname + '/../**/*.schema{.ts,.js}',
+  ],
+  migrations: [
+    __dirname + '/../**/migrations/*{.ts,.js}',
+  ]
+}
+
+export const psqlConfig: DataSourceOptions = ({
+  type: 'postgres',
+  username: env.DATABASE_USER,
+  password: env.DATABASE_PASS,
+  host: env.DATABASE_HOST,
+  database: env.DATABASE_NAME,
+  synchronize: false,
+  ...baseConfig
+});
+
+/// Data Source Option Presets
+
+export const sqliteDev: DataSourceOptions = {
+  type: 'sqlite',
+  database: 'sqlite.db',
+  synchronize: true,
+  ...baseConfig,
+};
+
+export function sqliteTestE2e(debug?: boolean): DataSourceOptions {
+  let loggerLevel: {
+    logger: MyTypeORMLogger | undefined
+  } | {} = {};
+  const database = (
+    !debug
+      ? ':memory:'
+      : `${new Date().toISOString()}.debug.sqlite.db`
+  );
+  // if (debug) {
+  //   loggerLevel = {
+  //     logger: new MyTypeORMLogger(['migration', 'query', 'error', 'warn'])
+  //   };
+  // }
+
+  return {
+    type: 'sqlite',
+    database,
+    synchronize: true,
+    ...loggerLevel,
+    ...baseConfig,
+  };
+}

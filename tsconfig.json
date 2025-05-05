@@ -19,7 +19,7 @@
       "@courses/*": [
         "src/courses/*"
       ]
-    },    
+    },
     "importHelpers": true,
     "resolveJsonModule": true,
     "esModuleInterop": true,
@@ -42,6 +42,12 @@
     "noFallthroughCasesInSwitch": false
   },
   "include": [
-    "src/**/*"
+    "src/**/*",
+    "test/**/*",
+    "frontend",
+  ],
+  "exclude": [
+    "dist",
+    "node_modules"
   ]
 }

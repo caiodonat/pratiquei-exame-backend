@@ -6,8 +6,8 @@
     "deleteOutDir": true,
 		"assets": [
 			{
-				"include": "frontend",
-				"outDir": "dist",
+				"include": "../frontend",
+				"outDir": "dist/frontend",
 				"watchAssets": true
 			},
 			{
